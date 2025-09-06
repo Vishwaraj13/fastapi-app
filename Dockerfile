@@ -1,16 +1,12 @@
 FROM python:3.9-slim
 
-WORKDIR /app
+WORKDIR /code
 
-COPY requirements.txt .
+COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./app .
+COPY ./app /code/app
 
-# No need to EXPOSE 8000 specifically, but you can leave it
-EXPOSE 8080
-EXPOSE 8000
-
-# Use Railway's PORT env variable
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
+# Railway will provide PORT environment variable
+CMD ["python", "app/main.py"]
 

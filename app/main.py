@@ -1,12 +1,14 @@
 from fastapi import FastAPI
+import os
 
 app = FastAPI()
-#comment
+
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello from Railway!"}
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("PORT", 8080))  # fallback for local dev
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+    # Railway provides PORT environment variable
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
