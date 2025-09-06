@@ -42,13 +42,12 @@ jobs:
       
       - name: Install Railway CLI
         run: npm install -g @railway/cli
-      
-      - name: Link to Railway Project
-        run: railway link --service fastapi-copilot
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-      
+
+      - name: Login to Railway
+        run: |
+          railway login --browserless ${{ secrets.RAILWAY_TOKEN }}
+          
       - name: Deploy to Railway
-        run: railway up --service fastapi-copilot --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+          railway up --service fastapi-copilot --detach
